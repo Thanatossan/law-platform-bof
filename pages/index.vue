@@ -6,14 +6,6 @@
         <div class="col-2">
           <button class="btn btn-danger">เสนอกฎหมายต่อสภา</button>
         </div>
-        <div class="col-2">
-          <select class="form-select">
-            <option selected>Fitter</option>
-            <option value="1">ทั่วไป</option>
-            <option value="2">การเงิน</option>
-            <option value="3">พิเศษ</option>
-          </select>
-        </div>
       </div>
     </div>
     <div class="card-container container-fluid mt-3">

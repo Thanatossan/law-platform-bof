@@ -1,5 +1,26 @@
 <template>
   <div class="container">
+    <div class="row mt-3 mb-3">
+      <div class="col-2">
+        <h4>กฎหมายที่ได้รับมา</h4>
+      </div>
+      <div class="col-2">
+        <select class="form-select">
+          <option selected>โปรดเลือกประเภท</option>
+          <option value="1">ทั่วไป</option>
+          <option value="2">การเงิน</option>
+          <option value="3">พิเศษ</option>
+        </select>
+      </div>
+      <div class="col-2">
+        <select class="form-select">
+          <option selected>โปรดเลือกสถานะ</option>
+          <option value="1">โสด</option>
+          <option value="2">มีแฟนแล้ว</option>
+          <option value="3">เป็นได้แค่เพื่อน!!</option>
+        </select>
+      </div>
+    </div>
     <table class="table">
       <thead class="thead-light">
         <tr>
