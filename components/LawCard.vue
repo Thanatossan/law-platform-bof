@@ -22,7 +22,7 @@
           </p>
           <div class="status">
             <span class="badge bg-info"
-              >จำนวนคนโหวตขณะนี้ {{ $props.data.voteNumber }} คน</span
+              >จำนวนคนเข้าเสนอชื่อกฎหมาย : {{ $props.data.voteNumber }} คน</span
             >
             <span
               v-if="$props.option === 'lawOwner'"
@@ -40,7 +40,7 @@
             class="btn btn-outline-success"
             @click="vote($props.data._id)"
           >
-            โหวตให้กฎหมายนี้
+            เสนอชื่อเข้ากฎหมายนี้
           </button>
         </div>
         <div v-else>
@@ -48,7 +48,7 @@
             v-if="$props.data.status === status.ALLOWED_WAIT_FOR_PUBLISH"
             class="btn btn-success"
           >
-            เริ่มเปิดโหวต
+            เริ่มเปิดการเสนอชื่อเข้ากฎหมายนี้
           </button>
           <button
             v-if="$props.data.status === status.INITIAL_VOTE_COMPLETE"
