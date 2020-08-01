@@ -1,119 +1,48 @@
 <template>
-  <div class="container">
-    <div class="row mt-3 mb-3">
-      <div class="col-2">
-        <h4>กฎหมายที่ได้รับมา</h4>
-      </div>
-      <div class="col-2">
-        <select class="form-select">
-          <option selected>โปรดเลือกประเภท</option>
-          <option value="1">ทั่วไป</option>
-          <option value="2">การเงิน</option>
-          <option value="3">พิเศษ</option>
-        </select>
-      </div>
-      <div class="col-2">
-        <select class="form-select">
-          <option selected>โปรดเลือกสถานะ</option>
-          <option value="1">โสด</option>
-          <option value="2">มีแฟนแล้ว</option>
-          <option value="3">เป็นได้แค่เพื่อน!!</option>
-        </select>
+  <div class="p-4">
+    <h1 class="mr-3" style="font-size: 35px;">
+      กฎหมายที่ส่งเข้าเสนอชื่อของฉัน
+    </h1>
+    <div class="card-container container-fluid mt-3">
+      <LawCard
+        v-for="law in myLaws"
+        :key="law._id"
+        :data="law"
+        option="lawOwner"
+      />
+      <div v-if="myLaws.length === 0" class="alert alert-warning" role="alert">
+        <h1 style="font-size: 1.5rem; color: #000000;" class="mr-3">
+          ไม่มีกฎหมายที่คุณริเริ่ม
+        </h1>
+        <button class="btn btn-light">
+          ริเริ่มร่างกฎหมาย
+        </button>
       </div>
     </div>
-    <table class="table">
-      <thead class="thead-light">
-        <tr>
-          <th scope="col">ลำดับ</th>
-          <th scope="col" style="width: 30%;">ชื่อร่างกฎหมาย</th>
-          <th scope="col" style="width: 20%;">สถานะ</th>
-          <th scope="col" style="width: 10%;">ประเภท</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>คืนความยุติธรรมให้พี่เตี้ย มช.</td>
-          <td>
-            <p>
-              <span class="badge badge-secondary bg-gray">
-                กำลังรอการอนุมัติ</span
-              >
-            </p>
-          </td>
-          <td>การศึกษา</td>
-          <td>
-            <button class="btn btn-primary">Inspect</button>
-            <button class="btn btn-success">Accept</button>
-            <button class="btn btn-danger">
-              Decline
-            </button>
-            <div class="btn-group" role="group" aria-label="Basic example">
-              <button type="button" class="btn btn-secondary btn-warning">
-                <i class="far fa-edit"></i>
-              </button>
-              <button type="button" class="btn btn-secondary btn-danger">
-                <i class="fas fa-trash"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">1</th>
-          <td>คืนความยุติธรรมให้พี่เตี้ย มช.</td>
-          <td>
-            <p>
-              <span class="badge badge-secondary bg-gray">
-                กำลังรอการอนุมัติ</span
-              >
-            </p>
-          </td>
-          <td>การศึกษา</td>
-          <td>
-            <button class="btn btn-primary">Inspect</button>
-            <button class="btn btn-success">Accept</button>
-            <button class="btn btn-danger">
-              Decline
-            </button>
-            <div class="btn-group" role="group" aria-label="Basic example">
-              <button type="button" class="btn btn-secondary btn-warning">
-                <i class="far fa-edit"></i>
-              </button>
-              <button type="button" class="btn btn-secondary btn-danger">
-                <i class="fas fa-trash"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">1</th>
-          <td>คืนความยุติธรรมให้พี่เตี้ย มช.</td>
-          <td>
-            <p>
-              <span class="badge badge-secondary bg-gray">
-                กำลังรอการอนุมัติ</span
-              >
-            </p>
-          </td>
-          <td>การศึกษา</td>
-          <td>
-            <button class="btn btn-primary">Inspect</button>
-            <button class="btn btn-success">Accept</button>
-            <button class="btn btn-danger">
-              Decline
-            </button>
-            <div class="btn-group" role="group" aria-label="Basic example">
-              <button type="button" class="btn btn-secondary btn-warning">
-                <i class="far fa-edit"></i>
-              </button>
-              <button type="button" class="btn btn-secondary btn-danger">
-                <i class="fas fa-trash"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </template>
+<script>
+import { mapState } from 'vuex'
+
+export default {
+  middleware: 'auth',
+  data() {
+    return {}
+  },
+  computed: {
+    ...mapState({
+      myLaws: ({ person }) => person.myLaws,
+    }),
+  },
+  async created() {
+    await this.$store.dispatch('person/getMyLaws')
+    console.log(this.myLaws[0])
+  },
+}
+</script>
+<style lang="scss" scoped>
+.card-container {
+  height: 70vh;
+  overflow: auto;
+}
+</style>
