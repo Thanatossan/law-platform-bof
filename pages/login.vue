@@ -18,15 +18,7 @@
       </div>
 
       <div class="mt-3 d-flex justify-content-end" style="margin-right: 300px;">
-        <button
-          class="btn btn-success"
-          :class="
-            !otpisGen || otp.length !== 6 || remainingOtpTime === 0
-              ? 'disabled'
-              : ''
-          "
-          @click="login"
-        >
+        <button class="btn btn-success" @click="login">
           ลงชื่อเข้าใช้งาน
         </button>
       </div>
@@ -38,45 +30,23 @@ import { mapActions, mapState } from 'vuex'
 export default {
   layout: 'login',
   data() {
-    return {}
+    return {
+      username: '',
+      password: '',
+    }
   },
-  computed: {
-    ...mapState({
-      otpisGen: ({ authen }) => authen.otpisGen,
-      waitingOtpConfirm: ({ authen }) => authen.waitingOtpConfirm,
-      remainingOtpTime: ({ authen }) => authen.remainingOtpTime,
-    }),
-
-    cardId: {
-      get() {
-        return this.$store.state.authen.cardId
-      },
-      set(value) {
-        this.$store.commit('authen/HANDLE_CARD_ID', value)
-      },
-    },
-    phoneNumber: {
-      get() {
-        return this.$store.state.authen.phoneNumber
-      },
-      set(value) {
-        this.$store.commit('authen/HANDLE_PHONE_NUMBER', value)
-      },
-    },
-    otp: {
-      get() {
-        return this.$store.state.authen.otp
-      },
-      set(value) {
-        this.$store.commit('authen/HANDLE_OTP', value)
-      },
-    },
+  created() {
+    if (this.$auth.loggedIn) {
+      this.$router.push('/lawlist')
+    }
   },
   methods: {
     ...mapActions({
-      otpGen: 'authen/otpGenerate',
-      login: 'authen/login',
+      auth: 'authen/login',
     }),
+    async login() {
+      await this.auth({ username: this.username, password: this.password })
+    },
   },
 }
 </script>

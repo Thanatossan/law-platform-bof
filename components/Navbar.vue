@@ -9,7 +9,7 @@
           alt=""
         />
         <span style="font-family: Sarabun-bold; font-size: 30px;"
-          >โหวตและเข้าชื่อเสนอกฎหมาย</span
+          >ข้อมูลการเข้าขื่อเสนอกฎหมาย</span
         ></span
       >
       <button
@@ -34,18 +34,7 @@
               aria-current="page"
               @click="$router.push('/')"
             >
-              รายชื่อกฎหมายที่เปิดโหวต
-            </button>
-          </li>
-          <li v-if="$auth.loggedIn" class="nav-item">
-            <button
-              class="btn"
-              :class="
-                currentPath === 'mylaw' ? 'active btn-light' : 'text-white'
-              "
-              @click="$router.push('/mylaw')"
-            >
-              กฎหมายที่เข้าชื่อเสนอของฉัน
+              รายชื่อกฎหมายที่ส่งมาพิจารณา
             </button>
           </li>
         </ul>

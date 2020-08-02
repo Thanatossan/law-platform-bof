@@ -78,16 +78,12 @@ export default {
       local: {
         endpoints: {
           login: {
-            url: '/person/auth',
+            url: '/admin/login',
             method: 'post',
             propertyName: 'data.token',
           },
           logout: false,
-          user: {
-            url: '/person/info',
-            method: 'get',
-            propertyName: 'data',
-          },
+          user: false,
         },
       },
     },
