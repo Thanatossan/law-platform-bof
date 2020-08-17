@@ -1,5 +1,66 @@
 <template>
   <div class="p-4">
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              รายชื่อผู้เข้าชื่อเสนอกฎหมาย
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <thead>
+                <th>ลำดับที่</th>
+                <th>ชื่อ</th>
+                <th>นามสกุล</th>
+                <th>เลขบัตร ปชช</th>
+                <th>ที่อยู่</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>นายเอ</td>
+                  <td>นามสมมุติ</td>
+                  <td>12345678922123</td>
+                  <td>12/2 กทม</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>นายบี</td>
+                  <td>นามสมมุติ</td>
+                  <td>123456789221233</td>
+                  <td>12/2 เชียงใหม่</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div v-if="loading" class="spinner-border" role="status">
       <span class="sr-only">Loading...</span>
     </div>
@@ -25,7 +86,12 @@
           {{ createdYear }}
         </span>
         <h5>ประเภท : {{ law.type }}</h5>
-        <button type="button" class="btn btn-sm btn-info" disabled>
+        <button
+          type="button"
+          class="btn btn-sm btn-info"
+          data-toggle="modal"
+          data-target="#exampleModal"
+        >
           จำนวนคนเข้าชื่อเสนอ : {{ law.voteNumber }} คน
         </button>
         <img
@@ -179,7 +245,7 @@ export default {
     try {
       const res = await this.$axios.$get(`/laws/${this.$route.params.id}`)
       this.law = res.data.law
-      console.log(res)
+      console.log(res.data.law.initiatePerson)
       this.otherData = res.data
       this.createdYear = new Date(this.law.createdDate).toLocaleDateString(
         'th-TH',
