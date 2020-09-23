@@ -17,8 +17,14 @@ export const actions = {
   async allowLaw(context, lawId) {
     try {
       await this.$axios.$post(`/admin/allow/${lawId}`, { allow: true })
-      this.$swal('success', 'ท่านได้ยินยอมร่างนี้แล้ว', 'success')
-      this.$router.push('/')
+      const res = await this.$swal(
+        'success',
+        'ท่านได้ยินยอมร่างนี้แล้ว',
+        'success'
+      )
+      if (res.result) {
+        this.$router.push('/')
+      }
     } catch (error) {
       this.$swal('error', 'มีข้อผิดพลาด', 'error')
     }
@@ -26,8 +32,14 @@ export const actions = {
   async cancel(context, lawId) {
     try {
       await this.$axios.$post(`/admin/allow/${lawId}`, { allow: false })
-      this.$swal('success', 'ท่านได้ปฏิเสธร่างนี้แล้ว', 'success')
-      this.$router.push('/')
+      const res = await this.$swal(
+        'success',
+        'ท่านได้ปฏิเสธร่างนี้แล้ว',
+        'success'
+      )
+      if (res.result) {
+        this.$router.push('/')
+      }
     } catch (error) {
       this.$swal('error', 'มีข้อผิดพลาด', 'error')
     }
@@ -35,8 +47,14 @@ export const actions = {
   async submitLaw(context, lawId) {
     try {
       await this.$axios.$post(`/admin/submit/${lawId}`)
-      this.$swal('success', 'ร่างกฎหมายนี้มีผลแล้ว', 'success')
-      this.$router.push('/')
+      const res = await this.$swal(
+        'success',
+        'ร่างกฎหมายนี้มีผลแล้ว',
+        'success'
+      )
+      if (res.result) {
+        this.$router.push('/')
+      }
     } catch {
       this.$swal('error', 'มีข้อผิดพลาด', 'error')
     }

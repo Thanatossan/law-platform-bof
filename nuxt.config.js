@@ -14,7 +14,7 @@ export default {
    ** See https://nuxtjs.org/api/configuration-head
    */
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'ระบบจัดการร่างที่เข้าชื่อเสนอ',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -71,7 +71,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'http://103.3.60.239:8000/api',
+    baseURL: 'http://3.137.208.125/api',
   },
   auth: {
     strategies: {
