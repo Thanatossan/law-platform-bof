@@ -32,19 +32,14 @@
                 <th>ที่อยู่</th>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>นายเอ</td>
-                  <td>นามสมมุติ</td>
-                  <td>12345678922123</td>
-                  <td>12/2 กทม</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>นายบี</td>
-                  <td>นามสมมุติ</td>
-                  <td>123456789221233</td>
-                  <td>12/2 เชียงใหม่</td>
+                <tr v-for="(p, i) in law.data.personVoted" :key="p._id">
+                  <td>
+                    {{ i + 1 }}
+                  </td>
+                  <td>{{ p.name.first }}</td>
+                  <td>{{ p.name.last }}</td>
+                  <td>{{ p.idCardNumber }}</td>
+                  <td>N/A</td>
                 </tr>
               </tbody>
             </table>
@@ -93,19 +88,12 @@
                 <th>ที่อยู่</th>
               </thead>
               <tbody>
-                <tr v-if="law !== ''">
-                  <td>1</td>
-                  <td>{{ law.initiatePerson.name.first }}</td>
-                  <td>{{ law.initiatePerson.name.last }}</td>
-                  <td>0000000000000</td>
-                  <td>12/2 กทม</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>นายบี</td>
-                  <td>นามสมมุติ</td>
-                  <td>123456789221233</td>
-                  <td>12/2 เชียงใหม่</td>
+                <tr v-for="(p, i) in law.data.personInitiate" :key="p._id">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ p.name.first }}</td>
+                  <td>{{ p.name.last }}</td>
+                  <td>{{ p.idCardNumber }}</td>
+                  <td>N/A</td>
                 </tr>
               </tbody>
             </table>
@@ -128,17 +116,19 @@
     <div v-if="!loading && !showAlert" class="row">
       <div class="col-lg-3">
         <h3>
-          {{ law.title }}
+          {{ law.data.law.title }}
         </h3>
         <h4>
           {{
-            law.alreadyInitiated ? '(กฎหมายที่คุณริเริ่มหรือร่วมริเริ่ม)' : ''
+            law.data.law.alreadyInitiated
+              ? '(กฎหมายที่คุณริเริ่มหรือร่วมริเริ่ม)'
+              : ''
           }}
         </h4>
         <span style="color: rgb(192, 192, 192);">
           วันที่เข้าชื่อเสนอ
           {{
-            new Date(law.createdDate).toLocaleDateString('th-TH', {
+            new Date(law.data.law.createdDate).toLocaleDateString('th-TH', {
               weekday: 'long',
               month: 'long',
               day: 'numeric',
@@ -146,13 +136,13 @@
           }}
           {{ createdYear }}
         </span>
-        <h5>ประเภท : {{ law.type }}</h5>
+        <h5>ประเภท : {{ law.data.law.type }}</h5>
         <h6>
-          ผู้ริเริ่ม : {{ law.initiatePerson.name.first }}
-          {{ law.initiatePerson.name.last }}
+          ผู้ริเริ่ม : {{ law.data.law.initiatePerson.name.first }}
+          {{ law.data.law.initiatePerson.name.last }}
         </h6>
         <button
-          class="btn btn-dark"
+          class="btn btn-dark m-1"
           data-toggle="modal"
           data-target="#exampleModal1"
         >
@@ -160,11 +150,11 @@
         </button>
         <button
           type="button"
-          class="btn btn-sm btn-info"
+          class="btn btn-sm btn-info m-1"
           data-toggle="modal"
           data-target="#exampleModal"
         >
-          จำนวนคนเข้าชื่อเสนอ : {{ law.voteNumber }} คน
+          จำนวนคนเข้าชื่อเสนอ : {{ law.data.law.voteNumber }} คน
         </button>
 
         <!-- <img
@@ -186,11 +176,11 @@
             <div class="text-left">
               <p>หลักการ</p>
               <p>
-                {{ law.principle }}
+                {{ law.data.law.principle }}
               </p>
               <p>เหตุผล</p>
               <p>
-                {{ law.reason }}
+                {{ law.data.law.reason }}
               </p>
             </div>
           </div>
@@ -198,15 +188,15 @@
         <LawPaper>
           <div class="text-center">
             <p>ร่าง</p>
-            <p>พระราชบัญญัติ{{ law.title }}</p>
+            <p>พระราชบัญญัติ{{ law.data.law.title }}</p>
             <p>
               {{ createdYear }}
             </p>
             <div class="text-left">
               <p>
-                {{ law.description }}
+                {{ law.data.law.description }}
               </p>
-              <p v-for="(sec, i) in law.section" :key="i">
+              <p v-for="(sec, i) in law.data.law.section" :key="i">
                 <span style="font-family: Sarabun-bold;"
                   >หมวดที่ {{ i + 1 }}
                 </span>
@@ -218,12 +208,12 @@
         <LawPaper>
           <div class="text-center">
             <p>บันทึกวิเคาระห์สรุปสาระสำคัญ</p>
-            <p>ของร่างพระราชบัญญัติ{{ law.title }}</p>
+            <p>ของร่างพระราชบัญญัติ{{ law.data.law.title }}</p>
             <p>
               {{ createdYear }}
             </p>
             <div class="text-left">
-              {{ law.conslusion }}
+              {{ law.data.law.conslusion }}
             </div>
           </div>
         </LawPaper>
@@ -253,14 +243,12 @@ export default {
   async created() {
     console.log(this.$route.query.invite)
     try {
-      const res = await this.$axios.$get(`/laws/${this.$route.params.id}`)
-      this.law = res.data.law
-      this.createdYear = new Date(this.law.createdDate).toLocaleDateString(
-        'th-TH',
-        {
-          year: 'numeric',
-        }
-      )
+      this.law = await this.$axios.$get(`/laws/${this.$route.params.id}`)
+      this.createdYear = new Date(
+        this.law.data.law.createdDate
+      ).toLocaleDateString('th-TH', {
+        year: 'numeric',
+      })
       console.log(this.law)
       console.log(this.$route.params.id)
       this.loading = false
